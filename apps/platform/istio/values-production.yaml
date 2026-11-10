@@ -1,0 +1,58 @@
+# Istio values for production
+global:
+  meshID: mesh1
+  multiCluster:
+    clusterName: production
+  mtls:
+    enabled: true
+    auto: true
+  tracer:
+    zipkin:
+      address: tempo.monitoring:9411
+
+pilot:
+  configmap:
+    enableAutoMtls: true
+    enableHbone: true
+    traceSampling: 1.0
+  replicas: 2
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+
+gateways:
+  istio-ingressgateway:
+    enabled: true
+    type: LoadBalancer
+    ports:
+      - port: 80
+        name: http
+      - port: 443
+        name: https
+      - port: 15443
+        name: tls
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+cni:
+  enabled: true
+
+prometheus:
+  enabled: true
+
+grafana:
+  enabled: true
+
+tracing:
+  enabled: true
+  zipkin:
+    address: tempo.monitoring:9411

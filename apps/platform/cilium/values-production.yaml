@@ -1,0 +1,41 @@
+# Cilium values for production
+kubeProxyReplacement: true
+ipam:
+  mode: "kubernetes"
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query
+      - drop
+      - tcp
+      - flow
+      - icmp
+      - http
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+
+networkPolicy:
+  enabled: true
+
+ipv4NativeRoutingCIDR: "10.0.0.0/8"
+eni:
+  enabled: true
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+
+operator:
+  replicas: 2
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: external-secrets
+description: External Secrets Operator for syncing secrets from Vault
+type: application
+version: 0.9.0
+appVersion: "0.9.0"
+home: https://external-secrets.io/
+maintainers:
+  - name: Huda Choirul Anam
+    email: huda@smahud.dev

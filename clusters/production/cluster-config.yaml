@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-config
+  namespace: argocd
+data:
+  cluster_name: "production"
+  environment: "production"
+  region: "us-east-1"
+  domain: "prod.example.com"
+  ingress_class: "nginx"
+  cert_issuer: "letsencrypt-prod"
+  monitoring_retention: "30d"
+  log_retention: "7d"
+  backup_schedule: "0 2 * * *"
+  node_pools: |
+    general: m6i.xlarge,3-20
+    gpu: g5.2xlarge,0-10

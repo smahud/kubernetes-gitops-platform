@@ -1,0 +1,61 @@
+# ArgoCD values for production
+server:
+  service:
+    type: LoadBalancer
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: argocd.prod.example.com
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  replicas: 3
+
+controller:
+  replicas: 2
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+
+repoServer:
+  replicas: 2
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+
+redis-ha:
+  enabled: true
+  redis:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+dex:
+  enabled: false
+
+configs:
+  params:
+    server.insecure: "true"
+    controller.sync.parallelism: "10"
+    controller.resource.override: |
+      secret: ignoreDifferences:data

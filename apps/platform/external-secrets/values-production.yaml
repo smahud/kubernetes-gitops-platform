@@ -1,0 +1,9 @@
+# External Secrets Operator values for production
+webhook:
+  enabled: true
+
+certController:
+  enabled: true
+
+crds:
+  enabled: true

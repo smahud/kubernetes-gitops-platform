@@ -1,0 +1,137 @@
+# Monitoring stack values for production (kube-prometheus-stack)
+
+prometheus:
+  prometheusSpec:
+    retention: 30d
+    retentionSize: 50GB
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: fast-storage
+          resources:
+            requests:
+              storage: 100Gi
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+    replicas: 2
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: fast-storage
+          resources:
+            requests:
+              storage: 10Gi
+    replicas: 2
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+grafana:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: fast-storage
+    size: 10Gi
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  adminPassword: "" # Set via secret
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-operated.monitoring:9090
+          access: proxy
+          isDefault: true
+        - name: Tempo
+          type: tempo
+          url: http://tempo.monitoring:3200
+          access: proxy
+        - name: Loki
+          type: loki
+          url: http://loki.monitoring:3100
+          access: proxy
+
+tempo:
+  enabled: true
+  tempo:
+    storage:
+      trace:
+        backend: s3
+        s3:
+          bucket: tempo-traces
+          endpoint: s3.amazonaws.com
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
+loki:
+  enabled: true
+  loki:
+    storage:
+      bucketNames:
+        chunks: loki-chunks
+        ruler: loki-ruler
+        admin: loki-admin
+      type: s3
+      s3:
+        endpoint: s3.amazonaws.com
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
+promtail:
+  enabled: true
+  config:
+    lokiAddress: http://loki.monitoring:3100/loki/api/v1/push
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+
+kubelet:
+  enabled: true
+
+kubeControllerManager:
+  enabled: true
+
+kubeScheduler:
+  enabled: true
+
+kubeProxy:
+  enabled: true
+
+coredns:
+  enabled: true

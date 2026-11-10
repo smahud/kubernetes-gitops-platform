@@ -1,0 +1,10 @@
+apiVersion: v2
+name: monitoring
+description: Full observability stack (Prometheus, Grafana, Tempo, Loki)
+type: application
+version: 50.0.0
+appVersion: "2.0.0"
+home: https://prometheus-community.github.io/helm-charts
+maintainers:
+  - name: Huda Choirul Anam
+    email: huda@smahud.dev

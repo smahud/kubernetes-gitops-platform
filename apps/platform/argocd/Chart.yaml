@@ -1,0 +1,16 @@
+apiVersion: v2
+name: argocd
+description: ArgoCD Helm chart for GitOps
+type: application
+version: 7.7.0
+appVersion: "2.11.0"
+home: https://argoproj.github.io/argo-cd/
+sources:
+  - https://github.com/argoproj/argo-cd
+maintainers:
+  - name: Huda Choirul Anam
+    email: huda@smahud.dev
+keywords:
+  - gitops
+  - argocd
+  - continuous-delivery

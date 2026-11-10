@@ -1,0 +1,25 @@
+# Cert-manager values for production
+installCRDs: true
+
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: true
+
+cainjector:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+webhook:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+startupapicheck:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi

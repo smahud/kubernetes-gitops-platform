@@ -1,0 +1,9 @@
+apiVersion: v2
+name: api-gateway
+description: API Gateway workload
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Huda Choirul Anam
+    email: huda@smahud.dev
